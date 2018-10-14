@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : Creature
 {
 	[SerializeField] private float attackRadius;
+	[SerializeField] private LayerMask enemies;
 	[SerializeField] private float maxKnockbackTimer;
 	[SerializeField] private float maxDashTimer;
 	[SerializeField] private float dashMultiplier;
@@ -12,7 +13,6 @@ public class PlayerController : Creature
 	[SerializeField] private float fallMultiplyer;
 	[SerializeField] private float lowJumpMultiplyer;
 	private Animator animator;
-	private SpriteRenderer spriteRenderer;
 	private Transform attackPoint;
 	private Vector2 knockbackDir;
 	private bool damageMade = false;
@@ -29,7 +29,6 @@ public class PlayerController : Creature
 	void Start () 
 	{
 		animator = GetComponent<Animator>();
-		spriteRenderer = GetComponent<SpriteRenderer>();
 		attackPoint = transform.GetChild(0);
 		m_rb = GetComponent<Rigidbody2D>();
 
@@ -81,16 +80,13 @@ public class PlayerController : Creature
 				if (damageMade == false)
 				{
 					damageMade = true;
-					Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius);
+					Collider2D[] hitObjects = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemies);
 					if (hitObjects.Length > 0)
 					{
 						for (int i = 0; i < hitObjects.Length; i++)
 						{
-							if(hitObjects[i].gameObject.CompareTag("Enemy"))
-							{
-								print("hit enemy");
-								hitObjects[i].gameObject.GetComponent<Creature>().takeDamage(m_damage);
-							}
+							print("hit enemy");
+							hitObjects[i].gameObject.GetComponent<Creature>().takeDamage(m_damage);
 						}
 					}
 				}
@@ -154,12 +150,12 @@ public class PlayerController : Creature
 			if (h < 0 && facingRight)
 			{
 				facingRight = false;
-				spriteRenderer.flipX = true;
+				transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 			}
 			else if (h > 0 && !facingRight)
 			{
 				facingRight = true;
-				spriteRenderer.flipX = false;
+				transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 			}
 
 			if (dashing && jumping)

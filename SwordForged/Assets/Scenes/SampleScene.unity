@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 24444581}
   - component: {fileID: 24444580}
   - component: {fileID: 24444579}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Default Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 1165076604}
   - component: {fileID: 1165076603}
   - component: {fileID: 1165076607}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -571,6 +571,9 @@ MonoBehaviour:
   m_damage: 1
   m_maxUnhitableTimer: 0.3
   attackRadius: 0.25
+  enemies:
+    serializedVersion: 2
+    m_Bits: 1024
   maxKnockbackTimer: 0.1
   maxDashTimer: 0.3
   dashMultiplier: 3
